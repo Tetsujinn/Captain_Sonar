@@ -28,16 +28,17 @@ public class Vue extends JFrame {
 		this.setContentPane(grille);
 		//tout.add(grille);
 		
-		ImageIcon icon = new ImageIcon(grille.getClass().getResource("/armes.jpg"));
+		ImageIcon armes = new ImageIcon(grille.getClass().getResource("/armes.jpg"));
+		ImageIcon pannes = new ImageIcon(grille.getClass().getResource("/panne.jpeg"));
 		
-		JButton plus = new JButton(icon);
+		JButton plus = new JButton(armes);
 		plus.setActionCommand("+R");
 		//plus.addActionListener(controleur);
 		
 		grille.add(new JLabel("Ma Map", JLabel.CENTER));
 		grille.add(plus);
 		grille.add(new JLabel("Chemin ennemi", JLabel.CENTER));
-		JButton moins = new JButton("-");
+		JButton moins = new JButton(pannes);
 		moins.setActionCommand("-R");
 		//moins.addActionListener(controleur);
 		grille.add(moins);
