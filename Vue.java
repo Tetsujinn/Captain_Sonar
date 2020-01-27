@@ -28,8 +28,9 @@ public class Vue extends JFrame {
 		this.setContentPane(grille);
 		//tout.add(grille);
 		
-		ImageIcon armes = new ImageIcon(grille.getClass().getResource("/armes.jpg"));
-		ImageIcon pannes = new ImageIcon(grille.getClass().getResource("/panne.jpeg"));
+		ImageIcon armes = new ImageIcon(grille.getClass().getResource(""));
+		ImageIcon pannes = new ImageIcon(grille.getClass().getResource("panne.jpeg"));
+		
 		
 		JButton plus = new JButton(armes);
 		plus.setActionCommand("+R");
