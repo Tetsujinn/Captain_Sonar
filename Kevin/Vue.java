@@ -1,4 +1,6 @@
 package Kevin;
+import java.util.Objects;
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GraphicsConfiguration;
@@ -20,9 +22,9 @@ import javax.swing.JTextField;
 import autrevent.AutreEvent;
 import autrevent.AutreEventListener;
 
-public class Vue extends JFrame {
-//Controleur controleur, Modele modele
-	public Vue() {
+public class Vue extends JFrame implements AutreEventListener{
+
+	public Vue(Controleur controleur, Modele modele) {
 		super();
 		Box tout = new Box( BoxLayout.Y_AXIS);
 		this.setContentPane(tout);
@@ -32,93 +34,33 @@ public class Vue extends JFrame {
 
 		JButton create = new JButton("Creer un salon");
 		create.setActionCommand("create");
-		//create.addActionListener(controleur);
+		create.addActionListener(controleur);
 		grille.add(create);
 		
 		JButton join = new JButton("Rejoindre un salon");
 		join.setActionCommand("join");
-		//join.addActionListener(controleur);
+		join.addActionListener(controleur);
 		grille.add(join);
 		
 		JButton quit = new JButton("Quitter");
 		quit.setActionCommand("quit");
-		//quit.addActionListener(controleur);
+		quit.addActionListener(controleur);
 		grille.add(quit);
 		
-		this.pack();
-		this.setSize(new Dimension(960,722));
-		this.setVisible(true);
-	}
-
-
-public static void main(String[] args) {
-               javax.swing.SwingUtilities.invokeLater(new Runnable() {
-                     public void run() {
-                        Vue vue = new Vue();
-                     }
-              });
-       }
-	/*
-	@SuppressWarnings("deprecation")
-	class VueValeurCouleur extends 	JTextField implements AutreEventListener {
-		private boolean modeHexa = false;
-		private ModeleRVB modele;
-		public VueValeurCouleur(ModeleRVB modele, ControleurRVB controleur) {
-			super();
-			this.modele = modele;
-			this.setText(valeurAffichee(modele.getCouleur()));
-			modele.addAutreEventListener(this);
-			controleur.addAutreEventListener(this);
-		}
-
-		public void actionADeclancher(AutreEvent event) {
-		    if (event.getSource() instanceof ModeleRVB && event.getDonnee() instanceof Color)  {
-				this.setText(valeurAffichee((Color) event.getDonnee()));
-			} else if (event.getSource() instanceof ControleurRVB && event.getDonnee() instanceof Boolean) {
-			    this.modeHexa = (Boolean)event.getDonnee();
-			    this.setText(valeurAffichee(modele.getCouleur()));
-			}
-		}
 		
-		private String valeurAffichee(Color couleur) {
-			String valeur="";
-			if (modeHexa) {
-				String hex = Integer.toHexString(couleur.getRed());
-				if (hex.length() < 2)
-					valeur += "0";
-				valeur += hex;
-				hex = Integer.toHexString(couleur.getGreen());
-				if (hex.length() < 2)
-					valeur += "0";
-				valeur += hex;
-				hex = Integer.toHexString(couleur.getBlue());
-				if (hex.length() < 2)
-					valeur += "0";
-				valeur += hex;
-			} else
-			    valeur = couleur.getRed()+", "+couleur.getGreen()+", "+couleur.getBlue();
-			return valeur;
-		}
+		modele.addAutreEventListener(this);
+		controleur.addAutreEventListener(this);
 	}
-	
 
-	class VueCouleur extends JPanel implements AutreEventListener {
-		@SuppressWarnings("deprecation")
-		public VueCouleur(ModeleRVB modele) {
-			super();
-			this.setPreferredSize(new Dimension(100,100));
-			this.setBackground(modele.getCouleur());
-			this.repaint();
-			modele.addAutreEventListener(this);
-		}
 
-		public void actionADeclancher(AutreEvent event) {
-		    if (event.getSource() instanceof ModeleRVB && event.getDonnee() instanceof Color)  {
-				this.setBackground((Color) event.getDonnee());
-				this.repaint();
-			} 
-		}
-	}*/
-
+	public void actionADeclancher(AutreEvent event) {
+		//if (event.getSource() instanceof Modele && event.getDonnee() instanceof String)  {
+		if(event.getDonnee() instanceof String)
+			if(Objects.equals((String)event.getDonnee(),new String("create")))
+				System.out.println(" Vue create");
+			if(Objects.equals((String)event.getDonnee(),new String("join")))
+				System.out.println(" Vue join");
+		//}
+	}
 
 }
