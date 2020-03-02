@@ -1,4 +1,3 @@
 javac autrevent/*.java
-javac Kevin/ImagePanel.java
-javac Kevin/Vue.java
-java Kevin.Vue
+javac Kevin/*.java
+java Kevin.Gui
