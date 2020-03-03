@@ -22,7 +22,7 @@ public static void main(String[] args) {
     boolean isRunning=true;
     int port=5678;
     int file=8;
-    String ip="10.1.20.95";
+    String ip="10.1.18.68";
     Scanner sc = new Scanner(System.in);
     ServerSocket server=null;
     Socket s = null;

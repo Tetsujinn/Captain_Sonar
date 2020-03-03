@@ -55,11 +55,12 @@ public class Vue extends JFrame implements AutreEventListener{
 
 	public void actionADeclancher(AutreEvent event) {
 		//if (event.getSource() instanceof Modele && event.getDonnee() instanceof String)  {
-		if(event.getDonnee() instanceof String)
+		if(event.getDonnee() instanceof String){
 			if(Objects.equals((String)event.getDonnee(),new String("create")))
 				System.out.println(" Vue create");
 			if(Objects.equals((String)event.getDonnee(),new String("join")))
 				System.out.println(" Vue join");
+		}
 		//}
 	}
 
