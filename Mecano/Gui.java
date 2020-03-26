@@ -1,4 +1,4 @@
-package Second;
+package Mecano;
 import java.awt.Dimension;
 public class Gui {
 
@@ -7,7 +7,7 @@ public class Gui {
 		Controleur controleur = new Controleur(modele);
 		Vue vue = new Vue(controleur, modele);
 		vue.pack();
-		vue.setSize(new Dimension(700,529));
+		vue.setSize(new Dimension(1025,529));
 		vue.setVisible(true);
 
 	}

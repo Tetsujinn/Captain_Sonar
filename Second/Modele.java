@@ -7,32 +7,63 @@ import autrevent.AutreEventNotifieur;
 
 //Joueur
 public class Modele {
-	private String pseudo = "";
-	private String ip = "";
+	private int mine;
+	private int drone;
+	private int silence;
+	private int torpille;
+	private int sonar;
 	private AutreEventNotifieur notifieur = new AutreEventNotifieur();
     
-	public Modele(String pseudo, String ip){
-		this.pseudo=pseudo;
-		this.ip=ip;
+	public Modele(){
 	}
 
-	public String getPseudo() {
-		return pseudo;
+	public int getMine() {
+		return mine;
 	}
 
-	public void setPseudo(String pseudo) {
-		this.pseudo = pseudo;
-		notifieur.diffuserAutreEvent(new AutreEvent(this, this.getPseudo()));
+	public void setMine(int mine) {
+		this.mine = mine;
+		notifieur.diffuserAutreEvent(new AutreEvent(this, new String("mine")));
 		
 	}
 
-	public String getIp() {
-		return ip;
+	public int getDrone() {
+		return drone;
 	}
 
-	public void setIp(String ip) {
-		this.ip = ip;
-		notifieur.diffuserAutreEvent(new AutreEvent(this, this.getIp()));
+	public void setDrone(int drone) {
+		this.drone = drone;
+		notifieur.diffuserAutreEvent(new AutreEvent(this, new String("drone")));
+		
+	}
+
+	public int getSilence() {
+		return silence;
+	}
+
+	public void setSilence(int silence) {
+		this.silence = silence;
+		notifieur.diffuserAutreEvent(new AutreEvent(this, new String("silence")));
+		
+	}
+
+	public int getTorpille() {
+		return torpille;
+	}
+
+	public void setTorpille(int torpille) {
+		this.torpille = torpille;
+		notifieur.diffuserAutreEvent(new AutreEvent(this, new String("torpille")));
+		
+	}
+
+	public int getSonar() {
+		return sonar;
+	}
+
+	public void setSonar(int sonar) {
+		this.sonar = sonar;
+		notifieur.diffuserAutreEvent(new AutreEvent(this, new String("sonar")));
 		
 	}
     
