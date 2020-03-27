@@ -10,6 +10,7 @@ import java.awt.FlowLayout;
 import java.awt.HeadlessException;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
+import java.awt.Component;
 
 import javax.swing.ImageIcon;
 import javax.swing.Box;
@@ -27,20 +28,28 @@ import javax.swing.JProgressBar;
 import autrevent.AutreEvent;
 import autrevent.AutreEventListener;
 
-import Captain_sonar_modele.modele_launcher;
-import Captain_sonar.Controleur_launcher;
+import Captain_sonar_modele.modele_second;
+import Captain_sonar.Controleur_second;
+
+
 
 public class Vue_second extends JFrame implements AutreEventListener{
 
-	public Vue_second(Controleur_launcher controleur, modele_launcher modele) {
+	private modele_second modele;
+	private Controleur_second controleur;
+
+	public Vue_second(Controleur_second controleur, modele_second modele) {
 		super();
-		Box tout = new Box( BoxLayout.Y_AXIS);
-		this.setContentPane(tout);
+		//Box tout = new Box( BoxLayout.Y_AXIS);
+		
 		JPanel grille = new ImagePanel(new ImageIcon("image/systeme.jpeg").getImage());
+		
 		grille.setLayout(new GridBagLayout());
-		tout.add(grille);
+		this.setContentPane(grille);
+		//tout.add(grille);
 
 		GridBagConstraints gbc = new GridBagConstraints();
+		gbc.fill=GridBagConstraints.HORIZONTAL;
 		gbc.gridx=0;
 		gbc.gridy=0;
 
@@ -49,7 +58,7 @@ public class Vue_second extends JFrame implements AutreEventListener{
 		//mine.setOpaque(false);
 		//mine.setContentAreaFilled(false);
 		//mine.setBorderPainted(false);
-		mine.setForeground(Color.RED);
+		//mine.setForeground(Color.RED);
 		mine.addActionListener(controleur);
 		grille.add(mine,gbc);
 		
@@ -67,9 +76,9 @@ public class Vue_second extends JFrame implements AutreEventListener{
 
 		JButton silence = new JButton("Silence");
 		silence.setActionCommand("silence");
-		silence.setOpaque(false);
-		silence.setContentAreaFilled(false);
-		silence.setBorderPainted(false);
+		//silence.setOpaque(false);
+		//silence.setContentAreaFilled(false);
+		//silence.setBorderPainted(false);
 		silence.addActionListener(controleur);
 		grille.add(silence,gbc);
 
@@ -84,26 +93,42 @@ public class Vue_second extends JFrame implements AutreEventListener{
 		gbc.gridx++;
 		JProgressBar jpbSilence = new JProgressBar();
 		grille.add(jpbSilence,gbc);
-		gbc.gridx++;
+
+		gbc.gridx=0;
+		gbc.gridy++;
 
 		JButton torpille = new JButton("Torpilles");
 		torpille.setActionCommand("torpille");
-		torpille.setOpaque(false);
-		torpille.setContentAreaFilled(false);
-		torpille.setBorderPainted(false);
+		//torpille.setOpaque(false);
+		//torpille.setContentAreaFilled(false);
+		//torpille.setBorderPainted(false);
 		torpille.addActionListener(controleur);
-		grille.add(torpille);
-		
+		grille.add(torpille,gbc);
+
+		gbc.gridx++;
+
 		JButton sonar = new JButton("Sonar");
 		sonar.setActionCommand("sonar");
-		sonar.setOpaque(false);
-		sonar.setContentAreaFilled(false);
-		sonar.setBorderPainted(false);
+		//sonar.setOpaque(false);
+		//sonar.setContentAreaFilled(false);
+		//sonar.setBorderPainted(false);
 		sonar.addActionListener(controleur);
-		grille.add(sonar);
+		grille.add(sonar,gbc);
+
+		gbc.gridx=0;
+		gbc.gridy++;
+
+		JProgressBar jpbTorpille = new JProgressBar();
+		grille.add(jpbTorpille,gbc);
+		gbc.gridx++;
+		JProgressBar jpbSonar = new JProgressBar();
+		grille.add(jpbSonar,gbc);
+		
 		
 		modele.addAutreEventListener(this);
 		controleur.addAutreEventListener(this);
+		this.modele=modele;
+		this.controleur=controleur;
 		
 		this.setTitle("vue second");
 		this.setSize(960,722);
@@ -113,14 +138,41 @@ public class Vue_second extends JFrame implements AutreEventListener{
 
 
 	public void actionADeclancher(AutreEvent event) {
-		//if (event.getSource() instanceof Modele && event.getDonnee() instanceof String)  {
-		if(event.getDonnee() instanceof String){
-			if(Objects.equals((String)event.getDonnee(),new String("create")))
-				System.out.println(" Vue create");
-			if(Objects.equals((String)event.getDonnee(),new String("join")))
-				System.out.println(" Vue join");
+		if (event.getSource() instanceof modele_second)  {
+			Component[] component=this.getContentPane().getComponents();
+			if(event.getDonnee() instanceof String){
+				if(Objects.equals((String)event.getDonnee(),new String("mine"))){
+					if (component[3] instanceof JProgressBar){
+					    JProgressBar jpb = (JProgressBar)component[3];
+					    jpb.setValue(modele.getMine());
+					}
+				}
+				if(Objects.equals((String)event.getDonnee(),new String("drone"))){
+					if (component[4] instanceof JProgressBar){
+					    JProgressBar jpb = (JProgressBar)component[4];
+					    jpb.setValue(modele.getDrone());
+					}
+				}
+				if(Objects.equals((String)event.getDonnee(),new String("silence"))){
+					if (component[5] instanceof JProgressBar){
+					    JProgressBar jpb = (JProgressBar)component[5];
+					    jpb.setValue(modele.getSilence());
+					}
+				}
+				if(Objects.equals((String)event.getDonnee(),new String("torpille"))){
+					if (component[8] instanceof JProgressBar){
+					    JProgressBar jpb = (JProgressBar)component[8];
+					    jpb.setValue(modele.getTorpille());
+					}
+				}
+				if(Objects.equals((String)event.getDonnee(),new String("sonar"))){
+					if (component[9] instanceof JProgressBar){
+					    JProgressBar jpb = (JProgressBar)component[9];
+					    jpb.setValue(modele.getSonar());
+					}
+				}
+			}
 		}
-		//}
 	}
 
 }
