@@ -6,7 +6,7 @@ import autrevent.AutreEventNotifieur;
 
 
 //Joueur
-public class Modele {
+public class ModeleMecano {
 	private boolean pannes[] = new boolean[24];
 	private int pipe1[]={0,5,6,12};
 	private int pipe2[]={1,10,13,14};
@@ -18,7 +18,7 @@ public class Modele {
 	private int vie=3;
 	private AutreEventNotifieur notifieur = new AutreEventNotifieur();
     
-	public Modele(){
+	public ModeleMecano(){
 		for(int i=0;i<24;i++)
 			this.pannes[i]=false;
 	}

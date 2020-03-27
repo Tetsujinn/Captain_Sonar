@@ -10,6 +10,8 @@ import java.awt.HeadlessException;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Component;
+import java.awt.Graphics;
+import java.awt.Image;
 
 import javax.swing.ImageIcon;
 import javax.swing.Box;
@@ -27,19 +29,19 @@ import javax.swing.JProgressBar;
 import autrevent.AutreEvent;
 import autrevent.AutreEventListener;
 
-public class Vue extends JFrame implements AutreEventListener{
+public class VueSecond extends JPanel implements AutreEventListener{
 
-	private Modele modele;
-	private Controleur controleur;
+	private ModeleSecond modele;
+	private ControleurSecond controleur;
 
-	public Vue(Controleur controleur, Modele modele) {
+	public VueSecond(ControleurSecond controleur, ModeleSecond modele) {
 		super();
 		//Box tout = new Box( BoxLayout.Y_AXIS);
 		
-		JPanel grille = new ImagePanel(new ImageIcon("systeme.jpeg").getImage());
+		//JPanel grille = new ImagePanel(new ImageIcon("systeme.jpeg").getImage());
 		
-		grille.setLayout(new GridBagLayout());
-		this.setContentPane(grille);
+		this.setLayout(new GridBagLayout());
+		//this.setContentPane(grille);
 		//tout.add(grille);
 
 		GridBagConstraints gbc = new GridBagConstraints();
@@ -54,7 +56,7 @@ public class Vue extends JFrame implements AutreEventListener{
 		//mine.setBorderPainted(false);
 		//mine.setForeground(Color.RED);
 		mine.addActionListener(controleur);
-		grille.add(mine,gbc);
+		this.add(mine,gbc);
 		
 		gbc.gridx++;
 
@@ -64,7 +66,7 @@ public class Vue extends JFrame implements AutreEventListener{
 		//drone.setContentAreaFilled(false);
 		//drone.setBorderPainted(false);
 		drone.addActionListener(controleur);
-		grille.add(drone,gbc);
+		this.add(drone,gbc);
 		
 		gbc.gridx++;
 
@@ -74,19 +76,19 @@ public class Vue extends JFrame implements AutreEventListener{
 		//silence.setContentAreaFilled(false);
 		//silence.setBorderPainted(false);
 		silence.addActionListener(controleur);
-		grille.add(silence,gbc);
+		this.add(silence,gbc);
 
 		gbc.gridx=0;
 		gbc.gridy++;
 
 		JProgressBar jpbMine = new JProgressBar();
-		grille.add(jpbMine,gbc);
+		this.add(jpbMine,gbc);
 		gbc.gridx++;
 		JProgressBar jpbDrone = new JProgressBar();
-		grille.add(jpbDrone,gbc);
+		this.add(jpbDrone,gbc);
 		gbc.gridx++;
 		JProgressBar jpbSilence = new JProgressBar();
-		grille.add(jpbSilence,gbc);
+		this.add(jpbSilence,gbc);
 
 		gbc.gridx=0;
 		gbc.gridy++;
@@ -97,7 +99,7 @@ public class Vue extends JFrame implements AutreEventListener{
 		//torpille.setContentAreaFilled(false);
 		//torpille.setBorderPainted(false);
 		torpille.addActionListener(controleur);
-		grille.add(torpille,gbc);
+		this.add(torpille,gbc);
 
 		gbc.gridx++;
 
@@ -107,16 +109,16 @@ public class Vue extends JFrame implements AutreEventListener{
 		//sonar.setContentAreaFilled(false);
 		//sonar.setBorderPainted(false);
 		sonar.addActionListener(controleur);
-		grille.add(sonar,gbc);
+		this.add(sonar,gbc);
 
 		gbc.gridx=0;
 		gbc.gridy++;
 
 		JProgressBar jpbTorpille = new JProgressBar();
-		grille.add(jpbTorpille,gbc);
+		this.add(jpbTorpille,gbc);
 		gbc.gridx++;
 		JProgressBar jpbSonar = new JProgressBar();
-		grille.add(jpbSonar,gbc);
+		this.add(jpbSonar,gbc);
 		
 		
 		modele.addAutreEventListener(this);
@@ -127,8 +129,8 @@ public class Vue extends JFrame implements AutreEventListener{
 
 
 	public void actionADeclancher(AutreEvent event) {
-		if (event.getSource() instanceof Modele)  {
-			Component[] component=this.getContentPane().getComponents();
+		if (event.getSource() instanceof ModeleSecond)  {
+			Component[] component=this.getComponents();
 			if(event.getDonnee() instanceof String){
 				if(Objects.equals((String)event.getDonnee(),new String("mine"))){
 					if (component[3] instanceof JProgressBar){
@@ -164,4 +166,7 @@ public class Vue extends JFrame implements AutreEventListener{
 		}
 	}
 
+	public void paintComponent(Graphics g) {
+        	g.drawImage(new ImageIcon("systeme.jpeg").getImage(), 0, 0, null);
+    	}
 }

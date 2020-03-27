@@ -6,7 +6,7 @@ import autrevent.AutreEventNotifieur;
 
 
 //Joueur
-public class Modele {
+public class ModeleSecond {
 	private int mine;
 	private int drone;
 	private int silence;
@@ -14,7 +14,7 @@ public class Modele {
 	private int sonar;
 	private AutreEventNotifieur notifieur = new AutreEventNotifieur();
     
-	public Modele(){
+	public ModeleSecond(){
 	}
 
 	public int getMine() {

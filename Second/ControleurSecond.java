@@ -6,12 +6,12 @@ import autrevent.AutreEvent;
 import autrevent.AutreEventListener;
 import autrevent.AutreEventNotifieur;
 
-public class Controleur  implements ActionListener {
+public class ControleurSecond  implements ActionListener {
 	
-	private Modele modele;
+	private ModeleSecond modele;
 	private AutreEventNotifieur notifieur = new AutreEventNotifieur();
 
-	public Controleur(Modele modele) {
+	public ControleurSecond(ModeleSecond modele) {
 		this.modele = modele;
 	}
 

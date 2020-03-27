@@ -1,14 +1,20 @@
 package Second;
+
+import javax.swing.JFrame;
+
 import java.awt.Dimension;
+
 public class Gui {
 
 	public Gui() {
 		Modele modele = new Modele();
 		Controleur controleur = new Controleur(modele);
 		Vue vue = new Vue(controleur, modele);
-		vue.pack();
-		vue.setSize(new Dimension(700,529));
-		vue.setVisible(true);
+		JFrame fenetre=new JFrame();
+		fenetre.setContentPane(vue);
+		fenetre.pack();
+		fenetre.setSize(new Dimension(700,529));
+		fenetre.setVisible(true);
 
 	}
 
