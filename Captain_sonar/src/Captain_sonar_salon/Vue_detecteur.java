@@ -11,6 +11,7 @@ import java.awt.event.MouseListener;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -18,7 +19,8 @@ import javax.swing.JPanel;
 
 
 public class Vue_detecteur extends JFrame implements MouseListener {
-		public Vue_detecteur() {
+	Boolean mine = false;	
+	public Vue_detecteur() {
 			super();
 			this.setTitle("vue detecteur");
 			this.setSize(1500,800);
@@ -28,7 +30,10 @@ public class Vue_detecteur extends JFrame implements MouseListener {
 		    
 		    Icon case_normal = new ImageIcon("image/case_normal.png");
 		    Icon case_noir = new ImageIcon("image/case_noir.png");
+		    Icon case_gris = new ImageIcon("image/case_gris.png");
 		    Icon carte = new ImageIcon("image/carte.png");
+		    
+		    
 		    
 		    GridBagConstraints gbc = new GridBagConstraints();
 		    
@@ -55,7 +60,19 @@ public class Vue_detecteur extends JFrame implements MouseListener {
 			JLabel case2 = new JLabel("Silence");
 			gbc.gridy++;
 			annonce.add(case2, gbc);
-			JLabel case3 = new JLabel("Mine");
+			JButton case3 = new JButton("Mine");
+			/*case3.addMouseListener(new MouseAdapter()    //PROBLEME D'ACCESSIBILIE DE LA VARIABLE MINE !!!!!!
+			{
+			    public void mouseClicked(MouseEvent e)  
+			    {
+			    	JButton bouton=(JButton)e.getSource();
+			    	if(mine) {
+			    		bouton.getParent().setMine(false);
+			    	}else {
+			    		mine = true;
+			    	}
+			    }
+			});*/
 			gbc.gridy++;
 			annonce.add(case3, gbc);
 			
@@ -196,11 +213,28 @@ public class Vue_detecteur extends JFrame implements MouseListener {
 					gbc.gridx++;
 					Tab.add(grille[x][y],gbc);
 					grille[x][y].addMouseListener(new MouseAdapter()  
-					{  
+					{
 					    public void mouseClicked(MouseEvent e)  
 					    {  
+					    	
 					    	JLabel label=(JLabel)e.getSource();
-					    	label.setIcon(case_noir);
+					    	if(mine) {
+					    		if(label.getIcon() == case_normal) {
+					    		//	label.setIcon(case_normal_mine);
+					    		}else if(label.getIcon() == case_noir){
+					    		//	label.setIcon(case_noir_mine);
+					    		}else {
+					    		//	label.setIcon(case_gris_mine);
+					    		}
+					    	}else {
+					    		if(label.getIcon() == case_normal) {
+					    			label.setIcon(case_noir);
+					    		}else if(label.getIcon() == case_noir){
+					    			label.setIcon(case_gris);
+					    		}else {
+					    			label.setIcon(case_normal);
+					    		}
+					    	}
 					    }  
 					});
 				}
@@ -222,9 +256,11 @@ public class Vue_detecteur extends JFrame implements MouseListener {
 		    this.getContentPane().add(Jeu, BorderLayout.CENTER);
 		    
 		    //--------------- FIN PARTIE JEU-------------------
-		    
+		 
 		}
-
+		public void setMine(boolean bool_mine) {
+			 this.mine = bool_mine;
+		 }
 
 
 		
