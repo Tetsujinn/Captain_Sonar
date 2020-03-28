@@ -16,25 +16,32 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import autrevent.AutreEvent;
+import autrevent.AutreEventListener;
 
+import Captain_sonar_modele.modele_detecteur;
+import Captain_sonar.Controleur_detecteur;
 
-public class Vue_detecteur extends JFrame implements MouseListener {
-	Boolean mine = false;	
-	public Vue_detecteur() {
+public class Vue_detecteur extends JPanel implements AutreEventListener{
+	
+	boolean mine = false;
+	private modele_detecteur modele;
+	private Controleur_detecteur controleur;
+	
+	ImageIcon case_normal = new ImageIcon("../image/case_normal.png");
+	ImageIcon case_noir = new ImageIcon("../image/case_noir.png");
+	ImageIcon case_gris = new ImageIcon("../image/case_gris.png");
+	ImageIcon case_normal_mine = new ImageIcon("../image/case_normal_mine.png");
+	ImageIcon case_noir_mine = new ImageIcon("../image/case_noir_mine.png");
+	ImageIcon case_gris_mine = new ImageIcon("../image/case_gris_mine.png");
+	
+	public Vue_detecteur(Controleur_detecteur controleur, modele_detecteur modele) {
 			super();
-			this.setTitle("vue detecteur");
-			this.setSize(1500,800);
-			this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		    this.setLocationRelativeTo(null);
+			
 		    this.setLayout(new BorderLayout());
 		    
-		    Icon case_normal = new ImageIcon("image/case_normal.png");
-		    Icon case_noir = new ImageIcon("image/case_noir.png");
-		    Icon case_gris = new ImageIcon("image/case_gris.png");
-		    Icon carte = new ImageIcon("image/carte.png");
-		    
-		    
-		    
+		    ImageIcon carte = new ImageIcon("../image/carte.png");
+
 		    GridBagConstraints gbc = new GridBagConstraints();
 		    
 		    //---------------partie COMMUNICATION----------------
@@ -52,27 +59,18 @@ public class Vue_detecteur extends JFrame implements MouseListener {
 			gbc.gridy = 0;
 			gbc.gridx = 0;
 			
-			JLabel titre = new JLabel("Les différents types de case");
+			JLabel titre = new JLabel("Les differents types de case");
 			annonce.add(titre, gbc);
-			JLabel case1 = new JLabel("Déplacement");
+			JLabel case1 = new JLabel("Deplacement");
 			gbc.gridy++;
 			annonce.add(case1, gbc);
 			JLabel case2 = new JLabel("Silence");
 			gbc.gridy++;
 			annonce.add(case2, gbc);
 			JButton case3 = new JButton("Mine");
-			/*case3.addMouseListener(new MouseAdapter()    //PROBLEME D'ACCESSIBILIE DE LA VARIABLE MINE !!!!!!
-			{
-			    public void mouseClicked(MouseEvent e)  
-			    {
-			    	JButton bouton=(JButton)e.getSource();
-			    	if(mine) {
-			    		bouton.getParent().setMine(false);
-			    	}else {
-			    		mine = true;
-			    	}
-			    }
-			});*/
+			case3.setActionCommand("mine");
+			case3.addActionListener(controleur);
+			
 			gbc.gridy++;
 			annonce.add(case3, gbc);
 			
@@ -83,7 +81,7 @@ public class Vue_detecteur extends JFrame implements MouseListener {
 			chat.setBackground(new Color(0,0,255));
 			communication.add(chat, BorderLayout.SOUTH);//-----
 			
-		    this.getContentPane().add(communication, BorderLayout.EAST);
+		    this.add(communication, BorderLayout.EAST);
 		    // ----------------------- FIN PARTIE COMMUNICATION  -------------------
 		    
 		    // ------------ PARTIE JEU ---------------
@@ -212,31 +210,7 @@ public class Vue_detecteur extends JFrame implements MouseListener {
 					grille[x][y].setIcon(case_normal);
 					gbc.gridx++;
 					Tab.add(grille[x][y],gbc);
-					grille[x][y].addMouseListener(new MouseAdapter()  
-					{
-					    public void mouseClicked(MouseEvent e)  
-					    {  
-					    	
-					    	JLabel label=(JLabel)e.getSource();
-					    	if(mine) {
-					    		if(label.getIcon() == case_normal) {
-					    		//	label.setIcon(case_normal_mine);
-					    		}else if(label.getIcon() == case_noir){
-					    		//	label.setIcon(case_noir_mine);
-					    		}else {
-					    		//	label.setIcon(case_gris_mine);
-					    		}
-					    	}else {
-					    		if(label.getIcon() == case_normal) {
-					    			label.setIcon(case_noir);
-					    		}else if(label.getIcon() == case_noir){
-					    			label.setIcon(case_gris);
-					    		}else {
-					    			label.setIcon(case_normal);
-					    		}
-					    	}
-					    }  
-					});
+					grille[x][y].addMouseListener(controleur);
 				}
 				gbc.gridy++;
 				gbc.gridx = 0;
@@ -253,27 +227,57 @@ public class Vue_detecteur extends JFrame implements MouseListener {
 		    map.setPreferredSize(new Dimension(1100,400));
 		    Jeu.add(map, BorderLayout.NORTH);
 		    Jeu.add(Tab, BorderLayout.SOUTH);
-		    this.getContentPane().add(Jeu, BorderLayout.CENTER);
+		    this.add(Jeu, BorderLayout.CENTER);
 		    
 		    //--------------- FIN PARTIE JEU-------------------
-		 
+			modele.addAutreEventListener(this);
+			controleur.addAutreEventListener(this);
+		 	this.modele=modele;
+			this.controleur=controleur;
 		}
-		public void setMine(boolean bool_mine) {
-			 this.mine = bool_mine;
-		 }
 
-
+		public void actionADeclancher(AutreEvent event) {
+			if (event.getSource() instanceof Controleur_detecteur)  {
+				JLabel label=(JLabel)event.getDonnee();
+				if(this.modele.getMine()) {
+					if(label.getIcon() == case_normal) {
+						label.setIcon(case_normal_mine);
+					}else if(label.getIcon() == case_noir){
+						label.setIcon(case_noir_mine);
+					}else if(label.getIcon() == case_gris){
+						label.setIcon(case_gris_mine);
+					}else if(label.getIcon() == case_normal_mine) {
+						label.setIcon(case_normal);
+					}else if(label.getIcon() == case_noir_mine){
+						label.setIcon(case_noir);
+					}else if(label.getIcon() == case_gris_mine){
+						label.setIcon(case_gris);
+					}
+				}else {
+					if(label.getIcon() == case_normal) {
+						label.setIcon(case_noir);
+					}else if(label.getIcon() == case_noir){
+						label.setIcon(case_gris);
+					}else if(label.getIcon() == case_gris){
+						label.setIcon(case_normal);
+					}else if(label.getIcon() == case_normal_mine){
+						label.setIcon(case_noir_mine);
+					}else if(label.getIcon() == case_noir_mine){
+						label.setIcon(case_gris_mine);
+					}else if(label.getIcon() == case_gris_mine){
+						label.setIcon(case_normal_mine);
+					}
+				}
+			}
+			if (event.getSource() instanceof modele_detecteur)  {
+	/// Dans le cas ou le detecteur reset son dessin vue detecte l'event et donc reset les Jlabel en case_normal
+				/*
+				if(event.getDonnee() instanceof String){
+					if(Objects.equals((String)event.getDonnee(),new String("resetAll"))){
+					}
+				}*/
+			}
+		}
 		
-		public void mouseClicked(MouseEvent e) {
-			System.out.println("bizarre");
-		}
-		public void mouseEntered(MouseEvent e) {
-		}
-		public void mouseExited(MouseEvent e) { 
-		}
-		public void mousePressed(MouseEvent e) { 
-		}
-		public void mouseReleased(MouseEvent e) {
-		}
 }
 

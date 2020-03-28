@@ -10,7 +10,7 @@ public class Controleur implements MouseListener{
 	}
 	
 	public void mouseClicked(MouseEvent e) {
-		System.out.println("test réussi");
+		System.out.println("test reussi");
 	}
 	public void mouseEntered(MouseEvent e) {
 	}

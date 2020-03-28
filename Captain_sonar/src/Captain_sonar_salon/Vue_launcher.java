@@ -4,6 +4,7 @@ import java.util.Objects;
 
 
 import java.awt.FlowLayout;
+import java.awt.Graphics;
 
 import javax.swing.ImageIcon;
 import javax.swing.Box;
@@ -18,51 +19,48 @@ import autrevent.AutreEventListener;
 import Captain_sonar.Controleur_launcher;
 import Captain_sonar_modele.modele_launcher;
 
-public class Vue_launcher extends JFrame implements AutreEventListener{
+public class Vue_launcher extends JPanel implements AutreEventListener{
 
 	public Vue_launcher(Controleur_launcher controleur, modele_launcher modele) {
 		super();
-		Box tout = new Box( BoxLayout.Y_AXIS);
-		this.setContentPane(tout);
-		JPanel grille = new ImagePanel(new ImageIcon("image/fond.jpg").getImage());
-		tout.add(grille);
-		grille.setLayout(new FlowLayout());
+		
+		this.setLayout(new FlowLayout());
 
 		JButton create = new JButton("Creer un salon");
 		create.setActionCommand("create");
 		create.addActionListener(controleur);
-		grille.add(create);
+		this.add(create);
 		
 		JButton join = new JButton("Rejoindre un salon");
 		join.setActionCommand("join");
 		join.addActionListener(controleur);
-		grille.add(join);
+		this.add(join);
 		
 		JButton quit = new JButton("Quitter");
 		quit.setActionCommand("quit");
 		quit.addActionListener(controleur);
-		grille.add(quit);
+		this.add(quit);
 		
 		
 		modele.addAutreEventListener(this);
 		controleur.addAutreEventListener(this);
 		
-		this.setTitle("launcher");
-		this.setSize(960,722);
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	    this.setLocationRelativeTo(null);
+		
 	}
 
 
 	public void actionADeclancher(AutreEvent event) {
-		//if (event.getSource() instanceof Modele && event.getDonnee() instanceof String)  {
 		if(event.getDonnee() instanceof String){
-			if(Objects.equals((String)event.getDonnee(),new String("create")))
-				Vue_General.changementDeVueSalon();
+			if(Objects.equals((String)event.getDonnee(),new String("create"))){
+				Vue_General vg=(Vue_General)this.getTopLevelAncestor();
+				vg.changementDeVueSalon();
+			}
 			if(Objects.equals((String)event.getDonnee(),new String("join")))
 				System.out.println(" Vue join");
 		}
-		//}
 	}
 
+	public void paintComponent(Graphics g) {
+        	g.drawImage(new ImageIcon("../image/fond.jpg").getImage(), 0, 0, null);
+    	}
 }

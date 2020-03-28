@@ -15,16 +15,13 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-public class Vue_capitain extends JFrame{
+public class Vue_capitain extends JPanel{
 	public Vue_capitain() {
 		super();
-		this.setTitle("vue detecteur");
-		this.setSize(1500,800);
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	    this.setLocationRelativeTo(null);
+		
 	    this.setLayout(new BorderLayout());
 	    
-	    Icon carte = new ImageIcon("image/carte.png");
+	    Icon carte = new ImageIcon("../image/carte.png");
 	    
 	    GridBagConstraints gbc = new GridBagConstraints();
 	    
@@ -88,7 +85,7 @@ public class Vue_capitain extends JFrame{
 		chat.setBackground(new Color(0,0,255));
 		communication.add(chat, BorderLayout.SOUTH);//-----
 		
-	    this.getContentPane().add(communication, BorderLayout.EAST);
+	    this.add(communication, BorderLayout.EAST);
 	    // ----------------------- FIN PARTIE COMMUNICATION  -------------------
 	    
 	    // ------------ PARTIE JEU ---------------
@@ -105,9 +102,10 @@ public class Vue_capitain extends JFrame{
 	    map.add(map_lab);
 	    map.setPreferredSize(new Dimension(1100,400));
 	    Jeu.add(map, BorderLayout.NORTH);
-	    this.getContentPane().add(Jeu, BorderLayout.CENTER);
+	    this.add(Jeu, BorderLayout.CENTER);
 	    
 	    //--------------- FIN PARTIE JEU-------------------
 	    
 	}
+	
 }

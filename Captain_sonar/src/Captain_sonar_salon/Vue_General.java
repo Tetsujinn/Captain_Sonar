@@ -8,47 +8,66 @@ import Captain_sonar.*;
 
 
 public class Vue_General extends JFrame{
-	static modele_launcher modele = new modele_launcher();
-	static Controleur_launcher controleur = new Controleur_launcher(modele);
-	static Vue_launcher vueLauncher = new Vue_launcher(controleur, modele);
-	static Vue_salon vueSalon = new Vue_salon();
-	static modele_mecano modeleMecano = new modele_mecano();
-	static Controleur_mecano controleurMecano = new Controleur_mecano(modeleMecano);
-	static modele_second modeleSecond = new modele_second();
-	static Controleur_second controleurSecond = new Controleur_second(modeleSecond);
+
+	public modele_launcher modele = new modele_launcher();
+	public Controleur_launcher controleur = new Controleur_launcher(modele);
+	public Vue_launcher vueLauncher = new Vue_launcher(controleur, modele);
+	public Vue_salon vueSalon = new Vue_salon();
+
+	public modele_mecano modeleMecano = new modele_mecano();
+	public Controleur_mecano controleurMecano = new Controleur_mecano(modeleMecano);
+
+	public modele_second modeleSecond = new modele_second();
+	public Controleur_second controleurSecond = new Controleur_second(modeleSecond);
+	public modele_detecteur modeleDetecteur = new modele_detecteur();
+	public Controleur_detecteur controleurDetecteur = new Controleur_detecteur(modeleDetecteur);
 	
 	public Vue_General() {
 		super();
-		vueLauncher.setVisible(true);
+		
+		this.setContentPane(vueLauncher);
+		
+		/// VUE SALON & LAUNCHER
+		
+		this.setTitle("launcher");
+		this.setSize(1500,800);
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	    	this.setLocationRelativeTo(null);
+		this.setVisible(true);
 	}
 	
-	static public void changementDeVue(int num_joueur) {
+	public void changementDeVue(int num_joueur) {
 		if(num_joueur==0) {//capitaine
 			Vue_capitain vueCapitain = new Vue_capitain();
-			vueSalon.setVisible(false);
-			vueCapitain.setVisible(true);
+			this.setContentPane(vueCapitain);
+			this.repaint();
+			this.revalidate();
 		}
 		if(num_joueur==1) {//second
 			Vue_second vueSecond = new Vue_second(controleurSecond, modeleSecond);
-			vueSalon.setVisible(false);
-			vueSecond.setVisible(true);
+			this.setContentPane(vueSecond);
+			this.repaint();
+			this.revalidate();
 		}
 		if(num_joueur==2) {//Mecano
 			Vue_mecano vueMecano = new Vue_mecano(controleurMecano, modeleMecano);
-			vueSalon.setVisible(false);
-			vueMecano.setVisible(true);
+			this.setContentPane(vueMecano);
+			this.repaint();
+			this.revalidate();
 		}
 		if(num_joueur==3) {//detecteur
-			Vue_detecteur vueDetecteur = new Vue_detecteur();
-			vueSalon.setVisible(false);
-			vueDetecteur.setVisible(true);
+			Vue_detecteur vueDetecteur = new Vue_detecteur(controleurDetecteur, modeleDetecteur);
+			this.setContentPane(vueDetecteur);
+			this.repaint();
+			this.revalidate();
 			
 			
 		}
 	}
 	
-	static public void changementDeVueSalon() {
-		vueSalon.setVisible(true);
-		vueLauncher.setVisible(false);
+	public void changementDeVueSalon() {
+		this.setContentPane(vueSalon);
+		this.repaint();
+		this.revalidate();
 	}
 }

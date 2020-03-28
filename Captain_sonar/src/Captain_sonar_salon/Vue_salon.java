@@ -7,35 +7,31 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 
-
-public class Vue_salon extends JFrame{
+public class Vue_salon extends JPanel{
 	int NOMBRE_DE_JOUEUR = 8;
 	public Vue_salon() {
 		super();
-		this.getContentPane().setLayout(new FlowLayout());
+		this.setLayout(new FlowLayout());
+
 		JLabel joueur[] = new JLabel[8]; 
 		for (int i = 0; i < NOMBRE_DE_JOUEUR; i++) {
 			joueur[i] = new JLabel("Joueur"+ (i+1));
-			this.getContentPane().add(joueur[i]);
+			this.add(joueur[i]);
 		}
 		JButton lancer_partie = new JButton("Lancer la partie");
 		lancer_partie.addActionListener(new lancerPartie());
 		
-		this.getContentPane().add(lancer_partie);
-		
-		
-		this.setTitle("vue salon");
-		this.setSize(960,722);
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	    this.setLocationRelativeTo(null);
-		
+		this.add(lancer_partie);
 		
 	}
 
 	class lancerPartie implements ActionListener{
 		public void actionPerformed(ActionEvent e) {
-			Vue_General.changementDeVue(1);
+			JButton jb = (JButton)e.getSource();
+			Vue_General vg=(Vue_General)jb.getTopLevelAncestor();
+			vg.changementDeVue(2);
 		}
 	}
 
