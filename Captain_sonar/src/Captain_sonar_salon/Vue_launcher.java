@@ -51,12 +51,11 @@ public class Vue_launcher extends JPanel implements AutreEventListener{
 
 	public void actionADeclancher(AutreEvent event) {
 		if(event.getDonnee() instanceof String){
-			if(Objects.equals((String)event.getDonnee(),new String("create"))){
-				Vue_General vg=(Vue_General)this.getTopLevelAncestor();
-				vg.changementDeVueSalon();
-			}
+			Vue_General vg=(Vue_General)this.getTopLevelAncestor();
+			if(Objects.equals((String)event.getDonnee(),new String("create")))
+				vg.changementDeVueSalon(0);
 			if(Objects.equals((String)event.getDonnee(),new String("join")))
-				System.out.println(" Vue join");
+				vg.changementDeVueSalon(1);
 		}
 	}
 
