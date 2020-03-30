@@ -1,3 +1,0 @@
-javac autrevent/*.java
-javac Kevin/*.java
-java Kevin.Gui
