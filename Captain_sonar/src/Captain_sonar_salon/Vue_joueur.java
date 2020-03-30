@@ -111,6 +111,15 @@ public class Vue_joueur extends JPanel implements AutreEventListener{
 				if(Objects.equals((String)event.getDonnee(),new String("envoi"))){
 					if(text.getText().length()==0) return;
 					Date date= new Date();
+					String zeroH ="";
+					String zeroM ="";
+					String zeroS ="";
+					int hours = date.getHours();
+					if(hours<10) zeroH="0";
+					int minutes = date.getMinutes();
+					if(minutes<10) zeroM="0";
+					int seconds= date.getSeconds();
+					if(seconds<10) zeroS="0";
 					if ((l.getSelectedIndex()==0)||(l.getSelectedIndex()==-1)){
 						String env = " joueur "+modele.getMonNum()+" : "+text.getText();
 						modele.envoi(0,env);
@@ -120,7 +129,10 @@ public class Vue_joueur extends JPanel implements AutreEventListener{
 						String num =t.nextToken() ;
 						num =t.nextToken();
 						String env="Chuchoter%%%"+num+"%%%"+" joueur "+modele.getMonNum()+" : "+text.getText();
-						historique.append("\n- "+date.getHours()+":"+date.getMinutes()+":"+date.getSeconds()+" chuchoter avec le joueur "+num+" : "+text.getText());
+						historique.append("\n- "+zeroH+date.getHours()+":"+zeroM+date.getMinutes()+":"+zeroS+date.getSeconds()+" chuchoter avec le joueur "+num+" : "+text.getText());
+						zeroH="";
+						zeroM="";
+						zeroS="";
 						modele.envoi(0,env);
 					}
 					text.setText("");
@@ -156,7 +168,19 @@ public class Vue_joueur extends JPanel implements AutreEventListener{
 					if((test.equals("NumeroJoueur"))||test.equals("num"))
 					{}else{
 						Date date= new Date();
-						historique.append("\n- "+date.getHours()+":"+date.getMinutes()+":"+date.getSeconds()+" "+msg);
+						String zeroH ="";
+						String zeroM ="";
+						String zeroS ="";
+						int hours = date.getHours();
+						if(hours<10) zeroH="0";
+						int minutes = date.getMinutes();
+						if(minutes<10) zeroM="0";
+						int seconds= date.getSeconds();
+						if(seconds<10) zeroS="0";
+						historique.append("\n- "+zeroH+date.getHours()+":"+zeroM+date.getMinutes()+":"+zeroS+date.getSeconds()+" "+msg);
+						zeroH="";
+						zeroM="";
+						zeroS="";
 					}
 				}
 			}// fin if string

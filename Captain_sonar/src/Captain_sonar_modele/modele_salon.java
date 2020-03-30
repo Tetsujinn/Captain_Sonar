@@ -20,6 +20,7 @@ public class modele_salon{
 	private Socket socketJ;
 	private PrintWriter serveurPrint;
 	private int monNumeroJoueur;
+
 	
 	private ServerSocket s;
 	private PrintWriter [] tab = new PrintWriter[20];
@@ -139,14 +140,19 @@ public class modele_salon{
 	/// THREAD RECEPTION
 	public class reception implements Runnable{
 
-		BufferedReader serveur;
+		BufferedReader serveur; 
 		PrintWriter pw;
-		public reception(){}
+		public reception(){
+			try{
+				serveur = new BufferedReader(new InputStreamReader(modele_salon.this.getSocket().getInputStream()));
+			}catch (IOException e) {  
+            		//}
+			}
+		}
      
 		public void run() {
         		while(true){
         			try {
-            			serveur = new BufferedReader(new InputStreamReader(modele_salon.this.getSocket().getInputStream()));
             			String msg = serveur.readLine();
             			notifieur.diffuserAutreEvent(new AutreEvent(modele_salon.this, msg));
             		} catch (IOException e) {  

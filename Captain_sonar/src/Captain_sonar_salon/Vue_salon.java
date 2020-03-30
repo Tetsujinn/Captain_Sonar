@@ -123,14 +123,28 @@ public class Vue_salon extends JPanel implements AutreEventListener{
 			if(event.getDonnee() instanceof String){
 				if(Objects.equals((String)event.getDonnee(),new String("envoi"))){
 					if(text.getText().length()==0) return;
-					Date date=new Date();
+					Date date= new Date();
+					String zeroH ="";
+					String zeroM ="";
+					String zeroS ="";
+					int hours = date.getHours();
+					if(hours<10) zeroH="0";
+					int minutes = date.getMinutes();
+					if(minutes<10) zeroM="0";
+					int seconds= date.getSeconds();
+					if(seconds<10) zeroS="0";
+						
+						
 					if(joueur.getSelectedIndex()==0||joueur.getSelectedIndex()==-1){
 						modele.envoiAll("Serveur : "+text.getText());
-						historique.append("\n- "+date.getHours()+":"+date.getMinutes()+":"+date.getSeconds()+" Serveur : "+text.getText());
+						historique.append("\n- "+zeroH+date.getHours()+":"+zeroM+date.getMinutes()+":"+zeroS+date.getSeconds()+" Serveur : "+text.getText());
 					}else{
 						modele.envoi(joueur.getSelectedIndex()-1,"Serveur : "+text.getText());
-						historique.append("\n- "+date.getHours()+":"+date.getMinutes()+":"+date.getSeconds()+" Chuchoter avec le joueur "+joueur.getSelectedItem()+" : "+text.getText()) ;
+						historique.append("\n- "+zeroH+date.getHours()+":"+zeroM+date.getMinutes()+":"+zeroS+date.getSeconds()+" Chuchoter avec le joueur "+joueur.getSelectedItem()+" : "+text.getText()) ;
 					}
+					zeroH="";
+					zeroM="";
+					zeroS="";
 					text.setText("");
 				}
 				if(Objects.equals((String)event.getDonnee(),new String("lancement"))){
@@ -173,7 +187,20 @@ public class Vue_salon extends JPanel implements AutreEventListener{
 						//tab[j].println(msg) ;
 						//tab[j].flush();
 						Date date= new Date();
-						historique.append("\n- "+date.getHours()+":"+date.getMinutes()+":"+date.getSeconds()+" "+msg);
+						String zeroH ="";
+						String zeroM ="";
+						String zeroS ="";
+						int hours = date.getHours();
+						if(hours<10) zeroH="0";
+						int minutes = date.getMinutes();
+						if(minutes<10) zeroM="0";
+						int seconds= date.getSeconds();
+						if(seconds<10) zeroS="0";
+							
+						historique.append("\n- "+zeroH+date.getHours()+":"+zeroM+date.getMinutes()+":"+zeroS+date.getSeconds()+" "+msg);
+						zeroH="";
+						zeroM="";
+						zeroS="";
 					}
 				}
 			} // fin if string
