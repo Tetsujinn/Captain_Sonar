@@ -32,11 +32,11 @@ public class Vue_joueur extends JPanel implements AutreEventListener{
 
 	//PrintWriter serveurPrint;
 	//Socket socketJ;
-	//Date date;
+	Date date;
 	//int compteurNumeroJoueur;
 
-	//reception r;
-	//Thread thread;
+	reception r;
+	Thread thread;
 
 	private modele_salon modele;
 	private Controleur_salon controleur;
@@ -90,50 +90,75 @@ public class Vue_joueur extends JPanel implements AutreEventListener{
 			modele.setSocket(new Socket("localhost",3000));
 			historique.append("Connecter au Serveur : "+modele.getSocket().getLocalAddress());
 			 
-			modele.setTab(0,new PrintWriter(modele.getSocket().getOutputStream()));
-			modele.envoi(0,"NumeroJoueur");
+			modele.setPrintWriter(new PrintWriter(modele.getSocket().getOutputStream()));
+			modele.getPrintWriter().println("NumeroJoueur") ;
+			modele.getPrintWriter().flush() ;
 			/*serveurPrint = new PrintWriter(modele.getSocket().getOutputStream());
 			serveurPrint.println("NumeroJoueur") ;
 			serveurPrint.flush() ;*/
 			 
-			modele_salon.reception r=modele.new reception();
-			Thread thread = new Thread(r) ;
+			r = new reception() ;
+			thread = new Thread(r) ;
 			thread.start() ;
 		 
 		} catch (IOException e) {
 			historique.append("\nImpossible de se connecter !!! \n");
 		}
 	}
+ 
+	public void envoi(){
+		try {
+		 
+			if(text.getText().length()==0) return;
+			if ((l.getSelectedIndex()==0)||(l.getSelectedIndex()==-1)){
+				String env = " joueur "+modele.getMonNum()+" : "+text.getText();
+				modele.getPrintWriter().println(env);
+				modele.getPrintWriter().flush();
+			}else{
+				String numC=l.getSelectedItem();
+				StringTokenizer t = new StringTokenizer(numC," ") ;
+				String num =t.nextToken() ;
+				num =t.nextToken();
+				String env="Chuchoter%%%"+num+"%%%"+" joueur "+modele.getMonNum()+" : "+text.getText();
+				historique.append("\n- "+date.getHours()+":"+date.getMinutes()+":"+date.getSeconds()+" chuchoter avec le joueur "+num+" : "+text.getText());
+				modele.getPrintWriter().println(env);
+				modele.getPrintWriter().flush();
+			}
+		} catch (Exception e) {
+		}
+	text.setText("");
+	}
 	
 	public void actionADeclancher(AutreEvent event) {
 		if (event.getSource() instanceof Controleur_salon)  {
 			if(event.getDonnee() instanceof String){
 				if(Objects.equals((String)event.getDonnee(),new String("envoi"))){
-					if(text.getText().length()==0) return;
-					Date date= new Date();
-					if ((l.getSelectedIndex()==0)||(l.getSelectedIndex()==-1)){
-						String env = " joueur "+modele.getMonNum()+" : "+text.getText();
-						modele.envoi(0,env);
-					}else{
-						String numC=l.getSelectedItem();
-						StringTokenizer t = new StringTokenizer(numC," ") ;
-						String num =t.nextToken() ;
-						num =t.nextToken();
-						String env="Chuchoter%%%"+num+"%%%"+" joueur "+modele.getMonNum()+" : "+text.getText();
-						historique.append("\n- "+date.getHours()+":"+date.getMinutes()+":"+date.getSeconds()+" chuchoter avec le joueur "+num+" : "+text.getText());
-						modele.envoi(0,env);
-					}
-					text.setText("");
+					envoi();
 				}
 			}
 		}
-		if (event.getSource() instanceof modele_salon){
-			if(event.getDonnee() instanceof String){
-				String msg =(String)event.getDonnee();
-				//Le jeton permet de reconaitre le numero du joueur
-				StringTokenizer t = new StringTokenizer(msg,"%%%") ;
-				String test = t.nextToken();
-				if (test.equals("num")){
+	}
+
+
+/// THREAD RECEPTION
+	class reception implements Runnable{
+
+	    BufferedReader cap_serveur;
+	    
+	    reception(){}
+	     
+	    public void run() {
+		 
+		while(true){
+		try {
+		
+			cap_serveur = new BufferedReader(new InputStreamReader(modele.getSocket().getInputStream()));
+			String msg = cap_serveur.readLine();
+			//Le jeton permet de reconaitre le numero du joueur
+			StringTokenizer t = new StringTokenizer(msg,"%%%") ;
+			String test = t.nextToken() ;
+
+		    	if (test.equals("num")){
 	    			int k=Integer.parseInt(t.nextToken());
 	    			l.removeAll();
 	    			l.add("Vers tout");
@@ -141,28 +166,32 @@ public class Vue_joueur extends JPanel implements AutreEventListener{
 						if(i!=modele.getMonNum())
 							l.add("joueur "+i);
 	    			}
-	    		}
-	    		if(test.equals("Joueur")){
+			}
+
+			if(test.equals("Joueur")){
 					modele.setMonNum(Integer.parseInt(t.nextToken()));
-					//compteurNumeroJoueur = Integer.parseInt(t.nextToken()) ;
-					//setTitle("Joueur "+compteurNumeroJoueur) ;
-					l.removeAll();
-					l.add("Vers tout");
-					for(int i=1;i<modele.getMonNum();i++){
-							l.add("joueur "+i);
-					}
-				}else{
-					//pour le jeton
-					if((test.equals("NumeroJoueur"))||test.equals("num"))
-					{}else{
-						Date date= new Date();
-						historique.append("\n- "+date.getHours()+":"+date.getMinutes()+":"+date.getSeconds()+" "+msg);
-					}
+	     			//compteurNumeroJoueur = Integer.parseInt(t.nextToken()) ;
+	    			//setTitle("Joueur "+compteurNumeroJoueur) ;
+				l.removeAll();
+				l.add("Vers tout");
+				for(int i=1;i<modele.getMonNum();i++){
+		    			l.add("joueur "+i);
 				}
-			}// fin if string
-		}//fin if modele_salon
-	}// fin actionadeclancher
-
-
+			}else{
+				//pour le jeton
+				if((test.equals("NumeroJoueur"))||test.equals("num"))
+				{}else{
+					date= new Date();
+					historique.append("\n- "+date.getHours()+":"+date.getMinutes()+":"+date.getSeconds()+" "+msg);
+				}
+			}
+		} catch (IOException e) {
+		    
+		}
+		 
+		}//fin while
+		 
+	    }//fin run
+	}//fin class reception
  
 }// FIN

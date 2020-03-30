@@ -173,7 +173,7 @@ public class Vue_salon extends JPanel implements AutreEventListener{
 						//tab[j].println(msg) ;
 						//tab[j].flush();
 						Date date= new Date();
-						historique.append("\n- "+date.getHours()+":"+date.getMinutes()+":"+date.getSeconds()+" "+msg);
+					historique.append("\n- "+date.getHours()+":"+date.getMinutes()+":"+date.getSeconds()+" "+msg);
 					}
 				}
 			} // fin if string
