@@ -57,7 +57,7 @@ public class Vue_salon extends JPanel implements AutreEventListener{
 		this.add(submit);
 
 		lancer_partie = new JButton("Lancer la partie");
-		lancer_partie.setBounds(460, 240, 220, 23);
+		lancer_partie.setBounds(460, 240, 110, 23);
 		lancer_partie.setEnabled(false);
 		lancer_partie.setActionCommand("lancement");
 		lancer_partie.addActionListener(controleur);
@@ -122,7 +122,7 @@ public class Vue_salon extends JPanel implements AutreEventListener{
 				lancer_partie.setEnabled(true);
 			}
 			if(event.getDonnee() instanceof Integer){
-				Vue_General vg=(Vue_General)submit.getTopLevelAncestor();
+				Vue_General vg=(Vue_General)lancer_partie.getTopLevelAncestor();
 				vg.changementDeVue((int)event.getDonnee());
 			}
 			if(event.getDonnee() instanceof Socket){

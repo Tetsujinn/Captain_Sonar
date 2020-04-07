@@ -210,7 +210,7 @@ public class modele_salon{
         	while(true){
         		try {
             		String msg = serveur.readLine();
-            		//notifieur.diffuserAutreEvent(new AutreEvent(modele_salon.this, msg));
+            		notifieur.diffuserAutreEvent(new AutreEvent(modele_salon.this, msg));
             		for(String r : roles){
             			if(msg.equals("/role/"+r)){
             				 modele_salon.this.setRole(r);

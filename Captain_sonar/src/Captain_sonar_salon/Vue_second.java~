@@ -154,6 +154,6 @@ public class Vue_second extends JPanel implements AutreEventListener{
 		}
 	}
 	public void paintComponent(Graphics g) {
-        	g.drawImage(new ImageIcon("../image/ArmementBleu.png").getImage(), 0, 0, null);
+        	g.drawImage(new ImageIcon("../image/systeme.jpeg").getImage(), 0, 0, null);
     	}
 }

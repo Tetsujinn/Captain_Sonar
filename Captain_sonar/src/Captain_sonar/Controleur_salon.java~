@@ -28,7 +28,7 @@ public class Controleur_salon  implements ActionListener,KeyListener {
 	    	break;
 	    case "lancement" : 
 	    	modele.tirage();
-	    	//notifieur.diffuserAutreEvent(new AutreEvent(this, new String("lancement")));
+	    	notifieur.diffuserAutreEvent(new AutreEvent(this, new String("lancement")));
 	    	break;
 		}
 	}

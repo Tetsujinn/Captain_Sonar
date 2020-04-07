@@ -36,7 +36,7 @@ public class Vue_General extends JFrame{
 		this.setContentPane(vueLauncher);
 		
 		this.setTitle("Captain Sonar");
-		this.setSize(1500,800);
+		this.setSize(2048,1547);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	    	this.setLocationRelativeTo(null);
 		this.setVisible(true);

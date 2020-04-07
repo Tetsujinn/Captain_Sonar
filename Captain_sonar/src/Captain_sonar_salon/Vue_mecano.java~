@@ -278,6 +278,6 @@ public class Vue_mecano extends JPanel implements AutreEventListener{
 		}
 	}
 	public void paintComponent(Graphics g) {
-        	g.drawImage(new ImageIcon("../image/MecanoBleu.png").getImage(), 0, 0, null);
+        	g.drawImage(new ImageIcon("../image/panne.jpeg").getImage(), 0, 0, null);
     	}
 }
